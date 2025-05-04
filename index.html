@@ -10,8 +10,8 @@
     .question h2 { margin-top: 0; }
     label { display: block; margin: 5px 0; }
     .submit-btn { padding: 10px 20px; font-size: 18px; cursor: pointer; }
-    .hidden { display: none; }
-    #name-container { text-align: center; }
+    #quiz-container { display: block; }
+    #name-container { margin-bottom: 20px; }
   </style>
 </head>
 <body>
@@ -20,13 +20,12 @@
 
 <!-- Name Input Section -->
 <div id="name-container">
-  <h2>Please enter your name:</h2>
+  <h2>Please enter your name before submitting the quiz:</h2>
   <input type="text" id="user-name" placeholder="Enter your name" required>
-  <button id="submit-name-btn">Submit Name</button>
 </div>
 
-<!-- Quiz Form Section (Initially Hidden) -->
-<div id="quiz-container" class="hidden">
+<!-- Quiz Section -->
+<div id="quiz-container">
   <form id="quizForm">
 
     <!-- Questions 1–13 -->
@@ -43,96 +42,40 @@
       <label><input type="radio" name="q2" value="buckteeth"> buckteeth</label>
     </div>
 
-    <!-- Add all other questions here... -->
+    <!-- Add the rest of your questions here (3–15)... -->
 
-    <div class="question" data-answer="7">
-      <h2>15. Select 7 staff you want to play with if you win</h2>
-      <div id="staff-checkboxes">
-        <label><input type="checkbox" name="q15" value="Nollear [Busy Bee Cult]"> Nollear [Busy Bee Cult]</label>
-        <label><input type="checkbox" name="q15" value="gorgilious"> gorgilious</label>
-        <!-- Add more staff options here... -->
-      </div>
-      <small id="staff-count-message" style="color: #555;"></small>
-    </div>
-
-    <button class="submit-btn" type="submit">Submit Quiz</button>
+    <button class="submit-btn" type="submit" id="submit-btn" disabled>Submit Quiz</button>
   </form>
 </div>
 
 <script>
 const form = document.getElementById('quizForm');
+const submitBtn = document.getElementById('submit-btn');
+const userNameInput = document.getElementById('user-name');
 const webhookURL = "YOUR_WEBHOOK_URL_HERE"; // Replace with your Discord webhook URL
 
-// Prevent resubmission after page refresh
-if (localStorage.getItem('quizSubmitted') === 'true') {
-  [...form.elements].forEach(el => el.disabled = true);
-  document.querySelector('.submit-btn').style.display = 'none';
-  const doneMsg = document.createElement('p');
-  doneMsg.textContent = "✅ You've already submitted this quiz.";
-  doneMsg.style.color = "green";
-  doneMsg.style.fontSize = "18px";
-  form.appendChild(doneMsg);
-}
-
-// Handle name submission
-const submitNameBtn = document.getElementById('submit-name-btn');
-const nameContainer = document.getElementById('name-container');
-const quizContainer = document.getElementById('quiz-container');
-let userName = "";
-
-// When the user submits their name
-submitNameBtn.addEventListener('click', function() {
-  userName = document.getElementById('user-name').value.trim();
-
-  if (userName === "") {
-    alert("Please enter your name.");
-    return;
+// Enable/Disable Submit button based on name input
+userNameInput.addEventListener('input', function() {
+  if (userNameInput.value.trim() !== "") {
+    submitBtn.disabled = false;
+  } else {
+    submitBtn.disabled = true;
   }
-
-  // Save the user's name to localStorage
-  localStorage.setItem('userName', userName);
-
-  // Hide the name input and show the quiz
-  nameContainer.style.display = 'none';
-  quizContainer.style.display = 'block';
-  alert(`Welcome, ${userName}! Start the quiz now.`);
-});
-
-// Staff selection logic
-const q15Checkboxes = document.querySelectorAll('input[name="q15"]');
-const countMessage = document.getElementById('staff-count-message');
-
-function updateCheckboxLimits() {
-  const selected = [...q15Checkboxes].filter(cb => cb.checked);
-  const maxReached = selected.length >= 7;
-
-  countMessage.textContent = `${selected.length} / 7 selected`;
-
-  q15Checkboxes.forEach(cb => {
-    if (!cb.checked) {
-      cb.disabled = maxReached;
-    } else {
-      cb.disabled = false;
-    }
-  });
-}
-
-q15Checkboxes.forEach(cb => {
-  cb.addEventListener('change', updateCheckboxLimits);
 });
 
 form.addEventListener('submit', function(e) {
   e.preventDefault();
 
-  if (!userName) {
-    alert('Please enter your name before submitting the quiz.');
-    return;
-  }
-
   const answers = {};
   let valid = true;
   let score = 0;
-  let resultText = `**Quiz Submission by ${userName}**\n`;
+  let resultText = '';
+  const userName = userNameInput.value.trim();
+
+  if (userName === "") {
+    alert("Please enter your name before submitting the quiz.");
+    return;
+  }
 
   document.querySelectorAll('.question').forEach((q, i) => {
     const name = `q${i + 1}`;
@@ -181,32 +124,20 @@ form.addEventListener('submit', function(e) {
   }
 
   resultText += `\n**Score: ${score}/14**`;
+  resultText = `**Name:** ${userName}\n` + resultText; // Add the name to the result
 
   fetch(webhookURL, {
     method: 'POST',
     headers: {'Content-Type': 'application/json'},
     body: JSON.stringify({
-      content: resultText
+      content: "📝 **New Quiz Submission**\n" + resultText
     })
   }).then(() => {
     alert("Submitted successfully!");
-
-    // Set submission flag in localStorage
-    localStorage.setItem('quizSubmitted', 'true');
-
-    // Disable the form
+    
+    // Disable the form and hide submit button after submission
     [...form.elements].forEach(el => el.disabled = true);
-
-    // Hide submit button
-    document.querySelector('.submit-btn').style.display = 'none';
-
-    // Show message
-    const msg = document.createElement('p');
-    msg.textContent = "✅ You've already submitted this quiz.";
-    msg.style.color = "green";
-    msg.style.fontSize = "18px";
-    form.appendChild(msg);
-
+    submitBtn.style.display = 'none';
   }).catch(() => {
     alert("Failed to send to Discord webhook.");
   });
