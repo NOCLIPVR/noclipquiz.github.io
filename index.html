@@ -91,85 +91,9 @@
     <form id="quizForm">
       <input type="text" name="username" placeholder="Enter your name..." required />
 
-      <div class="question"><p>1. What is Epic's catchphrase?</p>
-        <label><input type="radio" name="q1" value="meep">meep</label>
-        <label><input type="radio" name="q1" value="bazinka">bazinka</label>
-      </div>
+      <!-- Your other quiz questions go here... -->
 
-      <div class="question"><p>2. What emoji is § son?</p>
-        <label><input type="radio" name="q2" value="silly billy">silly billy</label>
-        <label><input type="radio" name="q2" value="joe bonkers">joe bonkers</label>
-        <label><input type="radio" name="q2" value="buckteeth">buckteeth</label>
-      </div>
-
-      <div class="question"><p>3. Is leader evil or good?</p>
-        <label><input type="radio" name="q3" value="evil">evil</label>
-        <label><input type="radio" name="q3" value="good">good</label>
-      </div>
-
-      <div class="question"><p>4. Is it ad or gorg?</p>
-        <label><input type="radio" name="q4" value="ad">ad</label>
-        <label><input type="radio" name="q4" value="gorg">gorg</label>
-      </div>
-
-      <div class="question"><p>5. What backrooms level is Entity 974?</p>
-        <label><input type="radio" name="q5" value="pool rooms">pool rooms</label>
-        <label><input type="radio" name="q5" value="kittys house">kittys house</label>
-        <label><input type="radio" name="q5" value="level fun">level fun</label>
-      </div>
-
-      <div class="question"><p>6. What does Kayoas like?</p>
-        <label><input type="radio" name="q6" value="meth">meth</label>
-        <label><input type="radio" name="q6" value="math">math</label>
-      </div>
-
-      <div class="question"><p>7. Who watches over everyone?</p>
-        <label><input type="radio" name="q7" value="xato">xato</label>
-        <label><input type="radio" name="q7" value="roxx">roxx</label>
-        <label><input type="radio" name="q7" value="nollear">nollear</label>
-      </div>
-
-      <div class="question"><p>8. Who’s Choob’s monkey noodle?</p>
-        <label><input type="radio" name="q8" value="dog">dog</label>
-        <label><input type="radio" name="q8" value="cat">cat</label>
-        <label><input type="radio" name="q8" value="horse">horse</label>
-      </div>
-
-      <div class="question"><p>9. What cult is Nollear a part of?</p>
-        <label><input type="radio" name="q9" value="busy bee">busy bee</label>
-        <label><input type="radio" name="q9" value="cat">cat</label>
-        <label><input type="radio" name="q9" value="fein">fein</label>
-      </div>
-
-      <div class="question"><p>10. What color is ***wolf9?</p>
-        <label><input type="radio" name="q10" value="blue">blue</label>
-        <label><input type="radio" name="q10" value="red">red</label>
-        <label><input type="radio" name="q10" value="green">green</label>
-      </div>
-
-      <div class="question"><p>11. Who's Xato's favorite NHL team?</p>
-        <label><input type="radio" name="q11" value="rangers">rangers</label>
-        <label><input type="radio" name="q11" value="penguins">penguins</label>
-        <label><input type="radio" name="q11" value="jets">jets</label>
-      </div>
-
-      <div class="question"><p>12. woo***</p>
-        <label><input type="radio" name="q12" value="poo">poo</label>
-        <label><input type="radio" name="q12" value="mat">mat</label>
-        <label><input type="radio" name="q12" value="bat">bat</label>
-      </div>
-
-      <div class="question"><p>13. Who's just the chillest of all guys?</p>
-        <label><input type="radio" name="q13" value="§">§</label>
-        <label><input type="radio" name="q13" value="kat">kat</label>
-        <label><input type="radio" name="q13" value="leader">leader</label>
-      </div>
-
-      <div class="question"><p>14. What is Hollow's first name?</p>
-        <input type="text" name="q14" placeholder="Enter Hollow's first name..." required />
-      </div>
-
-      <div class="question"><p>Who do you want to play with if you win?</p>
+      <div class="question"><p>Who do you want to play with if you win? (Select up to 7)</p>
         <label><input type="checkbox" class="name-checkbox" value="entity974">Entity974</label><br>
         <label><input type="checkbox" class="name-checkbox" value="reject">Reject</label><br>
         <label><input type="checkbox" class="name-checkbox" value="nollear">Nollear [Busy Bee Cult]</label><br>
@@ -252,10 +176,17 @@
         return;
       }
 
+      // Get the selected names
+      const selectedNamesList = selectedNames.join(", ");
+
+      // Build the payload to send to the webhook
       const payload = {
-        content: `📝 **New Quiz Submission**\n\n${results}\n**Score: ${score}/14**`
+        content: `📝 **New Quiz Submission**\n\n${results}\n**Selected Names:** ${selectedNamesList}\n**Score: ${score}/14**`
       };
 
+      const webhookUrl = "YOUR_DISCORD_WEBHOOK_URL_HERE"; // 👈 Replace this with your actual webhook URL
+
+      // Send data to Discord webhook
       await fetch(webhookUrl, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
