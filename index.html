@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>noclip Staff Quiz</title>
+  <title>Epic Staff Quiz</title>
   <style>
     body { font-family: Arial, sans-serif; padding: 20px; background: #f0f0f0; }
     h1 { text-align: center; }
@@ -17,7 +17,7 @@
 <h1>Epic Staff Quiz</h1>
 <form id="quizForm">
 
-  <!-- Questions -->
+  <!-- Questions 1–13 -->
   <div class="question" data-answer="meep">
     <h2>1. What is Epic's catchphrase?</h2>
     <label><input type="radio" name="q1" value="meep"> meep</label>
@@ -134,7 +134,7 @@
 
 <script>
 const form = document.getElementById('quizForm');
-const webhookURL = "https://discord.com/api/webhooks/1368602951374995477/-FxPP4iZtpRbuSGBOfy2aRRQu0ERtB6Kgk3MD5bz5UEFBqzi7jctA7ukIVgQd-d7SNeC"; // 🔁 Replace with your actual Discord webhook URL
+const webhookURL = "YOUR_WEBHOOK_URL_HERE"; // 🔁 Replace with your Discord webhook URL
 
 const q15Checkboxes = document.querySelectorAll('input[name="q15"]');
 const countMessage = document.getElementById('staff-count-message');
@@ -222,8 +222,20 @@ form.addEventListener('submit', function(e) {
     })
   }).then(() => {
     alert("Submitted successfully!");
-    form.reset();
-    updateCheckboxLimits(); // Reset disabled checkboxes
+
+    // Disable the form
+    [...form.elements].forEach(el => el.disabled = true);
+
+    // Hide submit button
+    document.querySelector('.submit-btn').style.display = 'none';
+
+    // Show message
+    const msg = document.createElement('p');
+    msg.textContent = "✅ You've already submitted this quiz.";
+    msg.style.color = "green";
+    msg.style.fontSize = "18px";
+    form.appendChild(msg);
+
   }).catch(() => {
     alert("Failed to send to Discord webhook.");
   });
