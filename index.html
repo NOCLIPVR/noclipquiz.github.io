@@ -1,297 +1,262 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Noclip Staff Quiz</title>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
+  <meta charset="UTF-8">
+  <title>Epic Staff Quiz</title>
   <style>
-    body {
-      font-family: 'Inter', sans-serif;
-      background: #f1f3f6;
-      margin: 0;
-      padding: 20px;
-    }
-
-    .container {
-      display: flex;
-      justify-content: space-between;
-      max-width: 1100px;
-      margin: auto;
-      background: #fff;
-      padding: 30px;
-      border-radius: 10px;
-      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.05);
-    }
-
-    .quiz-form {
-      flex: 1;
-      margin-right: 30px;
-    }
-
-    .people-picker {
-      flex: 1;
-      max-width: 300px;
-      background: #f7f7f7;
-      padding: 15px;
-      border-radius: 10px;
-      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    }
-
-    h1 {
-      text-align: center;
-      font-size: 28px;
-      color: #333;
-    }
-
-    .question {
-      margin-bottom: 25px;
-    }
-
-    .question p {
-      font-weight: 600;
-      color: #222;
-    }
-
-    label {
-      display: block;
-      margin: 6px 0;
-      cursor: pointer;
-    }
-
-    input[type="radio"],
-    input[type="text"],
-    input[type="checkbox"] {
-      margin-right: 8px;
-    }
-
-    input[type="text"] {
-      width: 100%;
-      padding: 10px;
-      margin-bottom: 20px;
-      font-size: 16px;
-      border: 1px solid #ccc;
-      border-radius: 6px;
-    }
-
-    button {
-      background-color: #0066ff;
-      color: white;
-      padding: 14px 24px;
-      font-size: 16px;
-      font-weight: 600;
-      border: none;
-      border-radius: 6px;
-      cursor: pointer;
-      transition: background 0.3s;
-    }
-
-    button:hover {
-      background-color: #004acc;
-    }
-
-    .people-picker h3 {
-      text-align: center;
-      margin-bottom: 15px;
-    }
-
-    .people-picker label {
-      display: inline-block;
-      width: 100%;
-      margin-bottom: 5px;
-      padding: 6px;
-      background: #fff;
-      border-radius: 5px;
-      cursor: pointer;
-      transition: background 0.3s;
-    }
-
-    .people-picker label:hover {
-      background-color: #0066ff;
-      color: white;
-    }
-
-    .disabled {
-      background-color: #dcdcdc !important;
-      color: #a1a1a1 !important;
-      pointer-events: none;
-    }
-
-    @media (max-width: 800px) {
-      .container {
-        flex-direction: column;
-      }
-
-      .quiz-form {
-        margin-right: 0;
-        margin-bottom: 30px;
-      }
-    }
+    body { font-family: Arial, sans-serif; padding: 20px; background: #f0f0f0; }
+    h1 { text-align: center; }
+    .question { margin-bottom: 20px; background: #fff; padding: 15px; border-radius: 8px; }
+    .question h2 { margin-top: 0; }
+    label { display: block; margin: 5px 0; }
+    .submit-btn { padding: 10px 20px; font-size: 18px; cursor: pointer; }
   </style>
 </head>
 <body>
-  <div class="container">
-    <div class="quiz-form">
-      <h1>Noclip Staff Quiz</h1>
-      <form id="quizForm">
-        <input type="text" name="username" placeholder="Enter your name..." required />
 
-        <!-- Questions -->
-        <div class="question"><p>1. What is Epic's catchphrase?</p>
-          <label><input type="radio" name="q1" value="meep">meep</label>
-          <label><input type="radio" name="q1" value="bazinka">bazinka</label>
-        </div>
+<h1>Epic Staff Quiz</h1>
+<form id="quizForm">
 
-        <div class="question"><p>2. What emoji is § son?</p>
-          <label><input type="radio" name="q2" value="silly billy">silly billy</label>
-          <label><input type="radio" name="q2" value="joe bonkers">joe bonkers</label>
-          <label><input type="radio" name="q2" value="buckteeth">buckteeth</label>
-        </div>
-
-        <!-- More questions ... -->
-
-        <div class="question"><p>14. What is Hollow's real name?</p>
-          <input type="text" name="q14" required placeholder="Enter Hollow's real name" />
-        </div>
-
-        <button type="submit" id="submitButton">Submit Quiz</button>
-      </form>
-    </div>
-
-    <!-- People Picker Sidebar -->
-    <div class="people-picker">
-      <h3>Select up to 7 people:</h3>
-      <div class="people-list">
-        <label><input type="checkbox" name="people" value="entity974"> entity974</label>
-        <label><input type="checkbox" name="people" value="reject"> reject</label>
-        <label><input type="checkbox" name="people" value="nollear"> Nollear [Busy Bee Cult]</label>
-        <label><input type="checkbox" name="people" value="gorgilious"> gorgilious</label>
-        <label><input type="checkbox" name="people" value="woobat"> Woobat</label>
-        <label><input type="checkbox" name="people" value="choob"> Choob</label>
-        <label><input type="checkbox" name="people" value="kat"> Kat</label>
-        <label><input type="checkbox" name="people" value="ItsKayoasVoltia"> !★ ItsKayoasVoltia ★!</label>
-        <label><input type="checkbox" name="people" value="§"> §</label>
-        <label><input type="checkbox" name="people" value="epicness"> Epic epicness (MEEP)</label>
-        <label><input type="checkbox" name="people" value="redwolf9"> Redwolf9</label>
-        <label><input type="checkbox" name="people" value="watcher"> The Watcher</label>
-        <label><input type="checkbox" name="people" value="hollow"> Hollow!</label>
-        <label><input type="checkbox" name="people" value="leader"> leader</label>
-      </div>
-    </div>
+  <!-- Questions 1–13 -->
+  <div class="question" data-answer="meep">
+    <h2>1. What is Epic's catchphrase?</h2>
+    <label><input type="radio" name="q1" value="meep"> meep</label>
+    <label><input type="radio" name="q1" value="bazinka"> bazinka</label>
   </div>
 
-  <script>
-    const answers = {
-      q1: "meep",
-      q2: "buckteeth",
-      q3: "evil",
-      q4: "gorg",
-      q5: "kittys house",
-      q6: "meth",
-      q7: "roxx",
-      q8: "cat",
-      q9: "busy bee",
-      q10: "red",
-      q11: "penguins",
-      q12: "bat",
-      q13: "kat",
-      q14: "Hollow" // This can be dynamic if needed
-    };
+  <div class="question" data-answer="buckteeth">
+    <h2>2. What emoji is §'s son?</h2>
+    <label><input type="radio" name="q2" value="silly billy"> silly billy</label>
+    <label><input type="radio" name="q2" value="joe bonkers"> joe bonkers</label>
+    <label><input type="radio" name="q2" value="buckteeth"> buckteeth</label>
+  </div>
 
-    let selectedCount = 0;
+  <div class="question" data-answer="evil">
+    <h2>3. Is Leader evil or good?</h2>
+    <label><input type="radio" name="q3" value="evil"> evil</label>
+    <label><input type="radio" name="q3" value="good"> good</label>
+  </div>
 
-    // Handle checkbox selection limit (max 7)
-    const checkboxes = document.querySelectorAll('input[name="people"]');
-    checkboxes.forEach(checkbox => {
-      checkbox.addEventListener('change', () => {
-        const checkedCheckboxes = document.querySelectorAll('input[name="people"]:checked');
-        selectedCount = checkedCheckboxes.length;
+  <div class="question" data-answer="gorg">
+    <h2>4. Is it Ad or Gorg?</h2>
+    <label><input type="radio" name="q4" value="ad"> ad</label>
+    <label><input type="radio" name="q4" value="gorg"> gorg</label>
+  </div>
 
-        checkboxes.forEach(box => {
-          if (selectedCount >= 7 && !box.checked) {
-            box.disabled = true; // Disable unchecked boxes once 7 are selected
-            box.closest('label').classList.add('disabled');
-          } else {
-            box.disabled = false; // Enable all boxes if less than 7
-            box.closest('label').classList.remove('disabled');
-          }
-        });
-      });
-    });
+  <div class="question" data-answer="kittys house">
+    <h2>5. What Backrooms level is Entity974 in?</h2>
+    <label><input type="radio" name="q5" value="pool rooms"> pool rooms</label>
+    <label><input type="radio" name="q5" value="kittys house"> kittys house</label>
+    <label><input type="radio" name="q5" value="level fun"> level fun</label>
+  </div>
 
-    // Handle form submission
-    document.getElementById("quizForm").addEventListener("submit", async function(event) {
-      event.preventDefault();
-      
-      const submitButton = document.getElementById("submitButton");
-      submitButton.disabled = true;
+  <div class="question" data-answer="meth">
+    <h2>6. What does Kayoas like?</h2>
+    <label><input type="radio" name="q6" value="meth"> meth</label>
+    <label><input type="radio" name="q6" value="math"> math</label>
+  </div>
 
-      const form = new FormData(event.target);
-      const name = form.get("username").trim();
-      
-      if (!name) {
-        alert("Please enter your name before submitting.");
-        submitButton.disabled = false;  // Re-enable submit button
+  <div class="question" data-answer="roxx">
+    <h2>7. Who watches over everyone?</h2>
+    <label><input type="radio" name="q7" value="xato"> xato</label>
+    <label><input type="radio" name="q7" value="roxx"> roxx</label>
+    <label><input type="radio" name="q7" value="nollear"> nollear</label>
+  </div>
+
+  <div class="question" data-answer="cat">
+    <h2>8. Who's Choob's monkey noodle?</h2>
+    <label><input type="radio" name="q8" value="dog"> dog</label>
+    <label><input type="radio" name="q8" value="cat"> cat</label>
+    <label><input type="radio" name="q8" value="horse"> horse</label>
+  </div>
+
+  <div class="question" data-answer="busy bee">
+    <h2>9. What cult is Nollear a part of?</h2>
+    <label><input type="radio" name="q9" value="busy bee"> busy bee</label>
+    <label><input type="radio" name="q9" value="cat"> cat</label>
+    <label><input type="radio" name="q9" value="fein"> fein</label>
+  </div>
+
+  <div class="question" data-answer="red">
+    <h2>10. What colour is ***wolf9?</h2>
+    <label><input type="radio" name="q10" value="blue"> blue</label>
+    <label><input type="radio" name="q10" value="red"> red</label>
+    <label><input type="radio" name="q10" value="green"> green</label>
+  </div>
+
+  <div class="question" data-answer="penguins">
+    <h2>11. Who's Xato's favourite NHL team?</h2>
+    <label><input type="radio" name="q11" value="rangers"> rangers</label>
+    <label><input type="radio" name="q11" value="penguins"> penguins</label>
+    <label><input type="radio" name="q11" value="jets"> jets</label>
+  </div>
+
+  <div class="question" data-answer="bat">
+    <h2>12. Woo***?</h2>
+    <label><input type="radio" name="q12" value="poo"> poo</label>
+    <label><input type="radio" name="q12" value="mat"> mat</label>
+    <label><input type="radio" name="q12" value="bat"> bat</label>
+  </div>
+
+  <div class="question" data-answer="kat">
+    <h2>13. Who's just the chillest of all guys?</h2>
+    <label><input type="radio" name="q13" value="§"> §</label>
+    <label><input type="radio" name="q13" value="kat"> kat</label>
+    <label><input type="radio" name="q13" value="leader"> leader</label>
+  </div>
+
+  <div class="question" data-answer="hollow">
+    <h2>14. What is Hollow's real name?</h2>
+    <input type="text" name="q14" placeholder="Type here...">
+  </div>
+
+  <div class="question" data-answer="7">
+    <h2>15. Select 7 staff you want to play with if you win</h2>
+    <div id="staff-checkboxes">
+      <label><input type="checkbox" name="q15" value="Nollear [Busy Bee Cult]"> Nollear [Busy Bee Cult]</label>
+      <label><input type="checkbox" name="q15" value="gorgilious"> gorgilious</label>
+      <label><input type="checkbox" name="q15" value="Woobat"> Woobat</label>
+      <label><input type="checkbox" name="q15" value="Choob"> Choob</label>
+      <label><input type="checkbox" name="q15" value="Kat"> Kat</label>
+      <label><input type="checkbox" name="q15" value="!★ ItsKayoasVoltia ★!"> !★ ItsKayoasVoltia ★!</label>
+      <label><input type="checkbox" name="q15" value="§"> §</label>
+      <label><input type="checkbox" name="q15" value="Epic epicness (MEEP)"> Epic epicness (MEEP)</label>
+      <label><input type="checkbox" name="q15" value="Redwolf9"> Redwolf9</label>
+      <label><input type="checkbox" name="q15" value="The Watcher"> The Watcher</label>
+      <label><input type="checkbox" name="q15" value="Hollow!"> Hollow!</label>
+      <label><input type="checkbox" name="q15" value="leader"> leader</label>
+    </div>
+    <small id="staff-count-message" style="color: #555;"></small>
+  </div>
+
+  <button class="submit-btn" type="submit">Submit Quiz</button>
+</form>
+
+<script>
+const form = document.getElementById('quizForm');
+const webhookURL = "https://discord.com/api/webhooks/1368602951374995477/-FxPP4iZtpRbuSGBOfy2aRRQu0ERtB6Kgk3MD5bz5UEFBqzi7jctA7ukIVgQd-d7SNeC"; // Replace with your Discord webhook URL
+
+// Prevent resubmission after page refresh
+if (localStorage.getItem('quizSubmitted') === 'true') {
+  // Disable the form and hide the submit button if already submitted
+  [...form.elements].forEach(el => el.disabled = true);
+  document.querySelector('.submit-btn').style.display = 'none';
+  const doneMsg = document.createElement('p');
+  doneMsg.textContent = "✅ You've already submitted this quiz.";
+  doneMsg.style.color = "green";
+  doneMsg.style.fontSize = "18px";
+  form.appendChild(doneMsg);
+}
+
+// Staff selection logic
+const q15Checkboxes = document.querySelectorAll('input[name="q15"]');
+const countMessage = document.getElementById('staff-count-message');
+
+function updateCheckboxLimits() {
+  const selected = [...q15Checkboxes].filter(cb => cb.checked);
+  const maxReached = selected.length >= 7;
+
+  countMessage.textContent = `${selected.length} / 7 selected`;
+
+  q15Checkboxes.forEach(cb => {
+    if (!cb.checked) {
+      cb.disabled = maxReached;
+    } else {
+      cb.disabled = false;
+    }
+  });
+}
+
+q15Checkboxes.forEach(cb => {
+  cb.addEventListener('change', updateCheckboxLimits);
+});
+
+form.addEventListener('submit', function(e) {
+  e.preventDefault();
+
+  const answers = {};
+  let valid = true;
+  let score = 0;
+  let resultText = '';
+
+  document.querySelectorAll('.question').forEach((q, i) => {
+    const name = `q${i + 1}`;
+    const correctAnswer = q.getAttribute('data-answer');
+
+    let value = null;
+    if (i + 1 === 14) {
+      value = form[name].value.trim();
+    } else if (i + 1 === 15) {
+      const selected = [...form[name]].filter(cb => cb.checked).map(cb => cb.value);
+      if (selected.length !== 7) {
+        alert('You must select exactly 7 staff members in Question 15.');
+        valid = false;
         return;
       }
-
-      let results = `👤 **Name:** ${name}\n`;
-      let score = 0;
-      let missing = [];
-
-      // Validate answers
-      for (let i = 1; i <= 14; i++) {
-        const key = `q${i}`;
-        const userAnswer = form.get(key);
-        const correctAnswer = answers[key];
-
-        if (!userAnswer) {
-          missing.push(i);
-        } else if (userAnswer === correctAnswer) {
-          results += `Q${i}: ✅ (${correctAnswer})\n`;
-          score++;
-        } else {
-          results += `Q${i}: ❌ (${correctAnswer})\n`;
-        }
-      }
-
-      if (missing.length > 0) {
-        alert(`Please answer all questions.\nMissing: ${missing.map(q => "Q" + q).join(", ")}`);
-        submitButton.disabled = false; // Re-enable submit button
+      value = selected;
+    } else {
+      const selected = form[name].value;
+      if (!selected) {
+        valid = false;
         return;
       }
+      value = selected;
+    }
 
-      // Validate people selection
-      const selectedPeople = [...form.getAll("people")];
-      if (selectedPeople.length < 1 || selectedPeople.length > 7) {
-        alert("Please select between 1 and 7 people.");
-        submitButton.disabled = false;
-        return;
-      }
+    if (!value || (Array.isArray(value) && value.length === 0)) {
+      valid = false;
+    }
 
-      const selectedPeopleList = selectedPeople.join(", ");
+    answers[name] = value;
 
-      // Add Hollow's real name to results
-      const hollowName = form.get("q14");
-      results += `\n**Hollow's Real Name:** ${hollowName}\n`;
+    if (i + 1 !== 14 && i + 1 !== 15) {
+      const isCorrect = value === correctAnswer;
+      score += isCorrect ? 1 : 0;
+      resultText += `Q${i + 1}: ${isCorrect ? '✅' : '❌'} (${value})\n`;
+    } else if (i + 1 === 14) {
+      resultText += `Q14: ✏️ (${value})\n`;
+    } else {
+      resultText += `Q15: 🎯 [${value.join(', ')}]\n`;
+    }
+  });
 
-      // Send to webhook
-      const payload = {
-        content: `📝 **New Quiz Submission**\n\n${results}\n**Selected People:** ${selectedPeopleList}\n**Score: ${score}/14**`
-      };
+  if (!valid) {
+    alert('Please answer all fields before submitting.');
+    return;
+  }
 
-      const webhookUrl = "YOUR_DISCORD_WEBHOOK_URL_HERE"; // Replace with actual URL
+  resultText += `\n**Score: ${score}/14**`;
 
-      await fetch(webhookUrl, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(payload)
-      });
+  fetch(webhookURL, {
+    method: 'POST',
+    headers: {'Content-Type': 'application/json'},
+    body: JSON.stringify({
+      content: "📝 **New Quiz Submission**\n" + resultText
+    })
+  }).then(() => {
+    alert("Submitted successfully!");
 
-      alert("Quiz submitted! Your answers have been sent.");
-      event.target.reset();
-      submitButton.disabled = false; // Re-enable submit button
-    });
-  </script>
+    // Set submission flag in localStorage
+    localStorage.setItem('quizSubmitted', 'true');
+
+    // Disable the form
+    [...form.elements].forEach(el => el.disabled = true);
+
+    // Hide submit button
+    document.querySelector('.submit-btn').style.display = 'none';
+
+    // Show message
+    const msg = document.createElement('p');
+    msg.textContent = "✅ You've already submitted this quiz.";
+    msg.style.color = "green";
+    msg.style.fontSize = "18px";
+    form.appendChild(msg);
+
+  }).catch(() => {
+    alert("Failed to send to Discord webhook.");
+  });
+});
+</script>
+
 </body>
 </html>
