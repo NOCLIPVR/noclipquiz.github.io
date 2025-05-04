@@ -134,8 +134,21 @@
 
 <script>
 const form = document.getElementById('quizForm');
-const webhookURL = "https://discord.com/api/webhooks/1368602951374995477/-FxPP4iZtpRbuSGBOfy2aRRQu0ERtB6Kgk3MD5bz5UEFBqzi7jctA7ukIVgQd-d7SNeC"; // 🔁 Replace with your Discord webhook URL
+const webhookURL = "YOUR_WEBHOOK_URL_HERE"; // Replace with your Discord webhook URL
 
+// Prevent resubmission after page refresh
+if (localStorage.getItem('quizSubmitted') === 'true') {
+  // Disable the form and hide the submit button if already submitted
+  [...form.elements].forEach(el => el.disabled = true);
+  document.querySelector('.submit-btn').style.display = 'none';
+  const doneMsg = document.createElement('p');
+  doneMsg.textContent = "✅ You've already submitted this quiz.";
+  doneMsg.style.color = "green";
+  doneMsg.style.fontSize = "18px";
+  form.appendChild(doneMsg);
+}
+
+// Staff selection logic
 const q15Checkboxes = document.querySelectorAll('input[name="q15"]');
 const countMessage = document.getElementById('staff-count-message');
 
@@ -222,6 +235,9 @@ form.addEventListener('submit', function(e) {
     })
   }).then(() => {
     alert("Submitted successfully!");
+
+    // Set submission flag in localStorage
+    localStorage.setItem('quizSubmitted', 'true');
 
     // Disable the form
     [...form.elements].forEach(el => el.disabled = true);
