@@ -43,105 +43,19 @@
       <label><input type="radio" name="q2" value="buckteeth"> buckteeth</label>
     </div>
 
-    <div class="question" data-answer="evil">
-      <h2>3. Is Leader evil or good?</h2>
-      <label><input type="radio" name="q3" value="evil"> evil</label>
-      <label><input type="radio" name="q3" value="good"> good</label>
-    </div>
+    <!-- Add the rest of your questions here (3–15)... -->
 
-    <div class="question" data-answer="gorg">
-      <h2>4. Is it Ad or Gorg?</h2>
-      <label><input type="radio" name="q4" value="ad"> ad</label>
-      <label><input type="radio" name="q4" value="gorg"> gorg</label>
-    </div>
 
-    <div class="question" data-answer="kittys house">
-      <h2>5. What Backrooms level is Entity974 in?</h2>
-      <label><input type="radio" name="q5" value="pool rooms"> pool rooms</label>
-      <label><input type="radio" name="q5" value="kittys house"> kittys house</label>
-      <label><input type="radio" name="q5" value="level fun"> level fun</label>
-    </div>
 
-    <div class="question" data-answer="meth">
-      <h2>6. What does Kayoas like?</h2>
-      <label><input type="radio" name="q6" value="meth"> meth</label>
-      <label><input type="radio" name="q6" value="math"> math</label>
-    </div>
 
-    <div class="question" data-answer="roxx">
-      <h2>7. Who watches over everyone?</h2>
-      <label><input type="radio" name="q7" value="xato"> xato</label>
-      <label><input type="radio" name="q7" value="roxx"> roxx</label>
-      <label><input type="radio" name="q7" value="nollear"> nollear</label>
-    </div>
 
-    <div class="question" data-answer="cat">
-      <h2>8. Who's Choob's monkey noodle?</h2>
-      <label><input type="radio" name="q8" value="dog"> dog</label>
-      <label><input type="radio" name="q8" value="cat"> cat</label>
-      <label><input type="radio" name="q8" value="horse"> horse</label>
-    </div>
 
-    <div class="question" data-answer="busy bee">
-      <h2>9. What cult is Nollear a part of?</h2>
-      <label><input type="radio" name="q9" value="busy bee"> busy bee</label>
-      <label><input type="radio" name="q9" value="cat"> cat</label>
-      <label><input type="radio" name="q9" value="fein"> fein</label>
-    </div>
 
-    <div class="question" data-answer="red">
-      <h2>10. What colour is ***wolf9?</h2>
-      <label><input type="radio" name="q10" value="blue"> blue</label>
-      <label><input type="radio" name="q10" value="red"> red</label>
-      <label><input type="radio" name="q10" value="green"> green</label>
-    </div>
 
-    <div class="question" data-answer="penguins">
-      <h2>11. Who's Xato's favourite NHL team?</h2>
-      <label><input type="radio" name="q11" value="rangers"> rangers</label>
-      <label><input type="radio" name="q11" value="penguins"> penguins</label>
-      <label><input type="radio" name="q11" value="jets"> jets</label>
-    </div>
 
-    <div class="question" data-answer="bat">
-      <h2>12. Woo***?</h2>
-      <label><input type="radio" name="q12" value="poo"> poo</label>
-      <label><input type="radio" name="q12" value="mat"> mat</label>
-      <label><input type="radio" name="q12" value="bat"> bat</label>
-    </div>
 
-    <div class="question" data-answer="kat">
-      <h2>13. Who's just the chillest of all guys?</h2>
-      <label><input type="radio" name="q13" value="§"> §</label>
-      <label><input type="radio" name="q13" value="kat"> kat</label>
-      <label><input type="radio" name="q13" value="leader"> leader</label>
-    </div>
 
-    <div class="question" data-answer="hollow">
-      <h2>14. What is Hollow's real name?</h2>
-      <input type="text" name="q14" placeholder="Type here..." required>
-    </div>
-
-    <div class="question" data-answer="7">
-      <h2>15. Select 7 staff you want to play with if you win</h2>
-      <div id="staff-checkboxes">
-        <label><input type="checkbox" name="q15" value="Nollear [Busy Bee Cult]"> Nollear [Busy Bee Cult]</label>
-        <label><input type="checkbox" name="q15" value="gorgilious"> gorgilious</label>
-        <label><input type="checkbox" name="q15" value="Woobat"> Woobat</label>
-        <label><input type="checkbox" name="q15" value="Choob"> Choob</label>
-        <label><input type="checkbox" name="q15" value="Kat"> Kat</label>
-        <label><input type="checkbox" name="q15" value="!★ ItsKayoasVoltia ★!"> !★ ItsKayoasVoltia ★!</label>
-        <label><input type="checkbox" name="q15" value="§"> §</label>
-        <label><input type="checkbox" name="q15" value="Epic epicness (MEEP)"> Epic epicness (MEEP)</label>
-        <label><input type="checkbox" name="q15" value="Redwolf9"> Redwolf9</label>
-        <label><input type="checkbox" name="q15" value="The Watcher"> The Watcher</label>
-        <label><input type="checkbox" name="q15" value="Hollow!"> Hollow!</label>
-        <label><input type="checkbox" name="q15" value="leader"> leader</label>
-      </div>
-      <small id="staff-count-message" style="color: #555;"></small>
-    </div>
-
-    <button class="submit-btn" type="submit" id="submit-quiz-btn">Submit Quiz</button>
+    <button class="submit-btn" type="submit">Submit Quiz</button>
   </form>
 </div>
 
@@ -151,10 +65,27 @@ const quizContainer = document.getElementById('quiz-container');
 const nameContainer = document.getElementById('name-container');
 const userNameInput = document.getElementById('user-name');
 const submitNameBtn = document.getElementById('submit-name-btn');
-const submitQuizBtn = document.getElementById('submit-quiz-btn');
 const webhookURL = "YOUR_WEBHOOK_URL_HERE"; // Replace with your Discord webhook URL
 
+// Prevent resubmission after page refresh
+if (localStorage.getItem('quizSubmitted') === 'true') {
+  // Disable the form and hide the submit button if already submitted
+  [...form.elements].forEach(el => el.disabled = true);
+  document.querySelector('.submit-btn').style.display = 'none';
+  const doneMsg = document.createElement('p');
+  doneMsg.textContent = "✅ You've already submitted this quiz.";
+  doneMsg.style.color = "green";
+  doneMsg.style.fontSize = "18px";
+  form.appendChild(doneMsg);
+}
+
 // Handle the name submission
+
+
+
+
+
+
 submitNameBtn.addEventListener('click', function() {
   const userName = userNameInput.value.trim();
 
@@ -169,7 +100,7 @@ submitNameBtn.addEventListener('click', function() {
   // Hide the name input section and show the quiz
   nameContainer.style.display = 'none';
   quizContainer.style.display = 'block';
-  alert(Welcome, ${userName}! Start the quiz now.);
+  alert(`Welcome, ${userName}! Start the quiz now.`);
 });
 
 // Staff selection logic
@@ -180,7 +111,7 @@ function updateCheckboxLimits() {
   const selected = [...q15Checkboxes].filter(cb => cb.checked);
   const maxReached = selected.length >= 7;
 
-  countMessage.textContent = ${selected.length} / 7 selected;
+  countMessage.textContent = `${selected.length} / 7 selected`;
 
   q15Checkboxes.forEach(cb => {
     if (!cb.checked) {
@@ -195,69 +126,96 @@ q15Checkboxes.forEach(cb => {
   cb.addEventListener('change', updateCheckboxLimits);
 });
 
-submitQuizBtn.addEventListener('click', function(e) {
+form.addEventListener('submit', function(e) {
   e.preventDefault();
 
-  const userName = localStorage.getItem('userName');
-  
-  if (!userName) {
-    alert("Please enter your name first.");
-    return;
-  }
 
-  let allQuestionsFilled = true;
 
-  // Check if all radio buttons are selected
-  document.querySelectorAll('.question').forEach((q, index) => {
-    const name = q${index + 1};
+
+
+
+  const answers = {};
+  let valid = true;
+  let score = 0;
+  let resultText = '';
+
+  document.querySelectorAll('.question').forEach((q, i) => {
+    const name = `q${i + 1}`;
     const correctAnswer = q.getAttribute('data-answer');
 
-    if (index + 1 !== 14 && index + 1 !== 15) {
-      if (!q.querySelector(input[name="${name}"]:checked)) {
-        allQuestionsFilled = false;
+    let value = null;
+    if (i + 1 === 14) {
+      value = form[name].value.trim();
+    } else if (i + 1 === 15) {
+      const selected = [...form[name]].filter(cb => cb.checked).map(cb => cb.value);
+      if (selected.length !== 7) {
+        alert('You must select exactly 7 staff members in Question 15.');
+        valid = false;
+        return;
       }
+      value = selected;
+    } else {
+      const selected = form[name].value;
+      if (!selected) {
+        valid = false;
+        return;
+      }
+      value = selected;
     }
 
-    // Check if hollow name is filled out
-    if (index + 1 === 14 && !q.querySelector('input[type="text"]').value.trim()) {
-      allQuestionsFilled = false;
+    if (!value || (Array.isArray(value) && value.length === 0)) {
+      valid = false;
     }
 
-    // Check if 7 staff are selected
-    if (index + 1 === 15) {
-      const selectedCheckboxes = [...q.querySelectorAll('input[type="checkbox"]:checked')].length;
-      if (selectedCheckboxes !== 7) {
-        allQuestionsFilled = false;
-      }
+    answers[name] = value;
+
+    if (i + 1 !== 14 && i + 1 !== 15) {
+      const isCorrect = value === correctAnswer;
+      score += isCorrect ? 1 : 0;
+      resultText += `Q${i + 1}: ${isCorrect ? '✅' : '❌'} (${value})\n`;
+    } else if (i + 1 === 14) {
+      resultText += `Q14: ✏️ (${value})\n`;
+    } else {
+      resultText += `Q15: 🎯 [${value.join(', ')}]\n`;
     }
   });
 
-  if (!allQuestionsFilled) {
-    alert("Please answer all questions and select exactly 7 staff.");
+  if (!valid) {
+    alert('Please answer all fields before submitting.');
     return;
   }
 
-  // If everything is filled out, submit the quiz
-  alert("Quiz submitted successfully!");
-  sendResultsToWebhook(userName);
-});
+  resultText += `\n**Score: ${score}/14**`;
 
-// Send results to Discord Webhook
-function sendResultsToWebhook(userName) {
   fetch(webhookURL, {
     method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
+    headers: {'Content-Type': 'application/json'},
     body: JSON.stringify({
-      content: Quiz submitted by ${userName}
+      content: "📝 **New Quiz Submission**\n" + resultText
     })
-  })
-  .then(response => {
-    console.log('Results sent to Discord!');
-  })
-  .catch(error => {
-    console.error('Error sending results to webhook:', error);
+  }).then(() => {
+    alert("Submitted successfully!");
+
+    // Set submission flag in localStorage
+    localStorage.setItem('quizSubmitted', 'true');
+
+    // Disable the form
+    [...form.elements].forEach(el => el.disabled = true);
+
+    // Hide submit button
+    document.querySelector('.submit-btn').style.display = 'none';
+
+    // Show message
+    const msg = document.createElement('p');
+    msg.textContent = "✅ You've already submitted this quiz.";
+    msg.style.color = "green";
+    msg.style.fontSize = "18px";
+    form.appendChild(msg);
+
+  }).catch(() => {
+    alert("Failed to send to Discord webhook.");
   });
-}
+});
 </script>
 
 </body>
