@@ -10,18 +10,20 @@
     .question h2 { margin-top: 0; }
     label { display: block; margin: 5px 0; }
     .submit-btn { padding: 10px 20px; font-size: 18px; cursor: pointer; }
+    .name-field { margin-bottom: 20px; }
   </style>
 </head>
 <body>
 
 <h1>Epic Staff Quiz</h1>
 
+<!-- Name Field -->
+<div class="name-field">
+  <label for="name">Enter your name:</label>
+  <input type="text" id="name" name="name" placeholder="Your name..." required>
+</div>
+
 <form id="quizForm">
-  <!-- Name Field -->
-  <div class="question">
-    <h2>Enter your Name:</h2>
-    <input type="text" name="name" id="name" placeholder="Your Name" required>
-  </div>
 
   <!-- Questions 1–13 -->
   <div class="question" data-answer="meep">
@@ -56,7 +58,53 @@
     <label><input type="radio" name="q5" value="level fun"> level fun</label>
   </div>
 
-  <!-- Remaining questions go here... -->
+  <div class="question" data-answer="meth">
+    <h2>6. What does Kayoas like?</h2>
+    <label><input type="radio" name="q6" value="meth"> meth</label>
+    <label><input type="radio" name="q6" value="math"> math</label>
+  </div>
+
+  <div class="question" data-answer="roxx">
+    <h2>7. Who watches over everyone?</h2>
+    <label><input type="radio" name="q7" value="xato"> xato</label>
+    <label><input type="radio" name="q7" value="roxx"> roxx</label>
+    <label><input type="radio" name="q7" value="nollear"> nollear</label>
+  </div>
+
+  <div class="question" data-answer="cat">
+    <h2>8. Who's Choob's monkey noodle?</h2>
+    <label><input type="radio" name="q8" value="dog"> dog</label>
+    <label><input type="radio" name="q8" value="cat"> cat</label>
+    <label><input type="radio" name="q8" value="horse"> horse</label>
+  </div>
+
+  <div class="question" data-answer="busy bee">
+    <h2>9. What cult is Nollear a part of?</h2>
+    <label><input type="radio" name="q9" value="busy bee"> busy bee</label>
+    <label><input type="radio" name="q9" value="cat"> cat</label>
+    <label><input type="radio" name="q9" value="fein"> fein</label>
+  </div>
+
+  <div class="question" data-answer="red">
+    <h2>10. What colour is ***wolf9?</h2>
+    <label><input type="radio" name="q10" value="blue"> blue</label>
+    <label><input type="radio" name="q10" value="red"> red</label>
+    <label><input type="radio" name="q10" value="green"> green</label>
+  </div>
+
+  <div class="question" data-answer="penguins">
+    <h2>11. Who's Xato's favourite NHL team?</h2>
+    <label><input type="radio" name="q11" value="rangers"> rangers</label>
+    <label><input type="radio" name="q11" value="penguins"> penguins</label>
+    <label><input type="radio" name="q11" value="jets"> jets</label>
+  </div>
+
+  <div class="question" data-answer="bat">
+    <h2>12. Woo***?</h2>
+    <label><input type="radio" name="q12" value="poo"> poo</label>
+    <label><input type="radio" name="q12" value="mat"> mat</label>
+    <label><input type="radio" name="q12" value="bat"> bat</label>
+  </div>
 
   <div class="question" data-answer="kat">
     <h2>13. Who's just the chillest of all guys?</h2>
@@ -98,7 +146,6 @@ const webhookURL = "https://discord.com/api/webhooks/1368602951374995477/-FxPP4i
 
 // Prevent resubmission after page refresh
 if (localStorage.getItem('quizSubmitted') === 'true') {
-  // Disable the form and hide the submit button if already submitted
   [...form.elements].forEach(el => el.disabled = true);
   document.querySelector('.submit-btn').style.display = 'none';
   const doneMsg = document.createElement('p');
@@ -108,7 +155,6 @@ if (localStorage.getItem('quizSubmitted') === 'true') {
   form.appendChild(doneMsg);
 }
 
-// Staff selection logic
 const q15Checkboxes = document.querySelectorAll('input[name="q15"]');
 const countMessage = document.getElementById('staff-count-message');
 
@@ -138,18 +184,16 @@ form.addEventListener('submit', function(e) {
   let valid = true;
   let score = 0;
   let resultText = '';
+  
+  const name = document.getElementById('name').value.trim();
 
-  // Get name
-  const userName = form['name'].value.trim();
-
-  if (!userName) {
-    alert('Please enter your name before submitting.');
+  if (!name) {
+    alert('Please enter your name.');
     return;
   }
 
-  // Loop through questions
   document.querySelectorAll('.question').forEach((q, i) => {
-    const name = `q${i + 1}`;
+    const name = q.querySelector('input').name;
     const correctAnswer = q.getAttribute('data-answer');
 
     let value = null;
@@ -194,34 +238,26 @@ form.addEventListener('submit', function(e) {
     return;
   }
 
-  resultText += `\n**Score: ${score}/14**`;
+  resultText = `Name: ${name}\n` + resultText + `\n**Score: ${score}/14**`;
 
-  // Send data to Discord webhook
   fetch(webhookURL, {
     method: 'POST',
     headers: {'Content-Type': 'application/json'},
     body: JSON.stringify({
-      content: `📝 **New Quiz Submission**\nName: **${userName}**\n` + resultText
+      content: "📝 **New Quiz Submission**\n" + resultText
     })
   }).then(() => {
     alert("Submitted successfully!");
 
-    // Set submission flag in localStorage
     localStorage.setItem('quizSubmitted', 'true');
-
-    // Disable the form
     [...form.elements].forEach(el => el.disabled = true);
-
-    // Hide submit button
     document.querySelector('.submit-btn').style.display = 'none';
 
-    // Show message
     const msg = document.createElement('p');
     msg.textContent = "✅ You've already submitted this quiz.";
     msg.style.color = "green";
     msg.style.fontSize = "18px";
     form.appendChild(msg);
-
   }).catch(() => {
     alert("Failed to send to Discord webhook.");
   });
