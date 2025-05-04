@@ -119,7 +119,7 @@
 
     <div class="question" data-answer="hollow">
       <h2>14. What is Hollow's real name?</h2>
-      <input type="text" name="q14" placeholder="Type here...">
+      <input type="text" name="q14" placeholder="Type here..." required>
     </div>
 
     <div class="question" data-answer="7">
@@ -141,7 +141,7 @@
       <small id="staff-count-message" style="color: #555;"></small>
     </div>
 
-    <button class="submit-btn" type="submit">Submit Quiz</button>
+    <button class="submit-btn" type="submit" id="submit-quiz-btn">Submit Quiz</button>
   </form>
 </div>
 
@@ -151,19 +151,8 @@ const quizContainer = document.getElementById('quiz-container');
 const nameContainer = document.getElementById('name-container');
 const userNameInput = document.getElementById('user-name');
 const submitNameBtn = document.getElementById('submit-name-btn');
+const submitQuizBtn = document.getElementById('submit-quiz-btn');
 const webhookURL = "YOUR_WEBHOOK_URL_HERE"; // Replace with your Discord webhook URL
-
-// Prevent resubmission after page refresh
-if (localStorage.getItem('quizSubmitted') === 'true') {
-  // Disable the form and hide the submit button if already submitted
-  [...form.elements].forEach(el => el.disabled = true);
-  document.querySelector('.submit-btn').style.display = 'none';
-  const doneMsg = document.createElement('p');
-  doneMsg.textContent = "✅ You've already submitted this quiz.";
-  doneMsg.style.color = "green";
-  doneMsg.style.fontSize = "18px";
-  form.appendChild(doneMsg);
-}
 
 // Handle the name submission
 submitNameBtn.addEventListener('click', function() {
@@ -206,75 +195,60 @@ q15Checkboxes.forEach(cb => {
   cb.addEventListener('change', updateCheckboxLimits);
 });
 
-form.addEventListener('submit', function(e) {
+submitQuizBtn.addEventListener('click', function(e) {
   e.preventDefault();
 
-  const answers = {};
-  let valid = true;
-  let score = 0;
-  let resultText = '';
-
-  // Get the user name from localStorage
   const userName = localStorage.getItem('userName');
+  
+  if (!userName) {
+    alert("Please enter your name first.");
+    return;
+  }
 
-  // Add the name to the result text
-  resultText = `**Name:** ${userName}\n`;
+  let allQuestionsFilled = true;
 
-  document.querySelectorAll('.question').forEach((q, i) => {
-    const name = `q${i + 1}`;
+  // Check if all radio buttons are selected
+  document.querySelectorAll('.question').forEach((q, index) => {
+    const name = `q${index + 1}`;
     const correctAnswer = q.getAttribute('data-answer');
 
-    let value = null;
-    if (i + 1 === 14) {
-      value = q.querySelector('input[type="text"]').value.trim().toLowerCase();
-    } else if (i + 1 === 15) {
-      const selectedCheckboxes = [...q.querySelectorAll('input[type="checkbox"]:checked')]
-        .map(cb => cb.value);
-      value = selectedCheckboxes;
-    } else {
-      const selectedRadio = q.querySelector(`input[name="${name}"]:checked`);
-      if (selectedRadio) {
-        value = selectedRadio.value;
+    if (index + 1 !== 14 && index + 1 !== 15) {
+      if (!q.querySelector(`input[name="${name}"]:checked`)) {
+        allQuestionsFilled = false;
       }
     }
 
-    if (value === correctAnswer) {
-      score++;
-    } else {
-      valid = false;
+    // Check if hollow name is filled out
+    if (index + 1 === 14 && !q.querySelector('input[type="text"]').value.trim()) {
+      allQuestionsFilled = false;
     }
 
-    answers[name] = value;
+    // Check if 7 staff are selected
+    if (index + 1 === 15) {
+      const selectedCheckboxes = [...q.querySelectorAll('input[type="checkbox"]:checked')].length;
+      if (selectedCheckboxes !== 7) {
+        allQuestionsFilled = false;
+      }
+    }
   });
 
-  resultText += `\n**Score:** ${score} / 15`;
-
-  if (valid) {
-    resultText += "\n🎉 Congratulations, you passed!";
-  } else {
-    resultText += "\n💡 Try again!";
+  if (!allQuestionsFilled) {
+    alert("Please answer all questions and select exactly 7 staff.");
+    return;
   }
 
-  sendResultsToWebhook(resultText);
-
-  // Mark quiz as submitted to prevent resubmission
-  localStorage.setItem('quizSubmitted', 'true');
-
-  // Hide the quiz and show the success message
-  quizContainer.style.display = 'none';
-  const successMessage = document.createElement('p');
-  successMessage.textContent = "✅ Quiz submitted successfully!";
-  successMessage.style.color = 'green';
-  form.appendChild(successMessage);
+  // If everything is filled out, submit the quiz
+  alert("Quiz submitted successfully!");
+  sendResultsToWebhook(userName);
 });
 
 // Send results to Discord Webhook
-function sendResultsToWebhook(resultText) {
+function sendResultsToWebhook(userName) {
   fetch(webhookURL, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({
-      content: resultText
+      content: `Quiz submitted by ${userName}`
     })
   })
   .then(response => {
