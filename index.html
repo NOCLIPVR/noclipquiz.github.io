@@ -3,93 +3,63 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Quiz Form</title>
+    <title>Epic Quiz</title>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
         body {
             font-family: Arial, sans-serif;
             display: flex;
             justify-content: center;
-            align-items: flex-start;
-            min-height: 100vh;
+            align-items: center;
+            height: 100vh;
             margin: 0;
             background-color: #f4f4f4;
-            padding: 20px;
         }
 
         .quiz-container {
-            width: 100%;
-            max-width: 700px;
+            width: 60%;
             background-color: white;
             padding: 20px;
             border-radius: 8px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            overflow-y: auto;
-            height: calc(100vh - 40px); /* Allow the container to grow within the viewport */
         }
 
         h1 {
             text-align: center;
-            margin-bottom: 20px;
+            color: #333;
         }
 
         fieldset {
+            border: 1px solid #ddd;
+            padding: 10px;
             margin-bottom: 15px;
-            padding: 15px;
-            border: 1px solid #ccc;
-            border-radius: 8px;
+            border-radius: 5px;
         }
 
         legend {
             font-weight: bold;
         }
 
-        label {
-            display: block;
-            margin-bottom: 8px;
+        button:disabled {
+            background-color: #ccc;
+            cursor: not-allowed;
         }
 
-        input[type="radio"],
-        input[type="checkbox"] {
-            margin-right: 8px;
-        }
-
-        .staff-options {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 10px;
-        }
-
-        .staff-options label {
-            flex: 1 1 30%;
-        }
-
-        .error-message {
-            color: red;
-            display: none;
-            text-align: center;
-            margin-bottom: 15px;
-        }
-
-        .submit-btn {
-            display: block;
-            width: 100%;
-            padding: 10px;
+        button {
             background-color: #4CAF50;
             color: white;
+            padding: 10px;
             border: none;
             border-radius: 5px;
-            font-size: 16px;
             cursor: pointer;
         }
 
-        .submit-btn:disabled {
-            background-color: #ccc;
+        button:hover {
+            background-color: #45a049;
+        }
+
+        #error-message {
+            color: red;
+            display: none;
         }
 
         .checkbox-greyed-out {
@@ -100,17 +70,13 @@
 </head>
 <body>
     <div class="quiz-container">
-        <h1>Quiz Form</h1>
-        <div class="error-message" id="error-message">
-            Please fill out all fields to submit!
-        </div>
+        <h1>Epic Quiz</h1>
         <form id="quiz-form">
-            <fieldset>
-                <legend>What's your name?</legend>
-                <input type="text" name="name" id="name" required>
-            </fieldset>
+            <!-- Name Field -->
+            <label for="name">Your Name:</label>
+            <input type="text" id="name" required placeholder="Enter your name">
 
-            <!-- Other questions go here, as before -->
+            <!-- Other questions (same as before) -->
 
             <!-- Question 14 -->
             <fieldset>
@@ -131,8 +97,8 @@
                 </div>
             </fieldset>
 
-            <!-- Submit Button -->
-            <button type="submit" id="submit-btn" class="submit-btn" disabled>Submit</button>
+            <button type="submit" id="submit-btn" disabled>Submit Quiz</button>
+            <p id="error-message" style="color: red; display: none;">Please fill out all fields to submit!</p>
         </form>
     </div>
 
@@ -142,7 +108,6 @@
             const submitButton = document.getElementById('submit-btn');
             const errorMessage = document.getElementById('error-message');
             const staffCheckboxes = document.querySelectorAll('input[name="staff"]');
-            const staffOptionsContainer = document.getElementById('staff-options');
 
             function updateCheckboxState() {
                 const selectedCount = document.querySelectorAll('input[name="staff"]:checked').length;
@@ -159,10 +124,9 @@
                         checkbox.closest('label').classList.remove('checkbox-greyed-out');
                     });
                 }
-                submitButton.disabled = selectedCount !== 7 || !isAllFormValid();  // Only enable submit if 7 checkboxes are selected and form is valid
+                submitButton.disabled = selectedCount !== 7 || !isAllFormValid();
             }
 
-            // Event listener to update checkbox state on click
             staffCheckboxes.forEach(checkbox => {
                 checkbox.addEventListener('change', updateCheckboxState);
             });
@@ -171,21 +135,20 @@
                 const formElements = form.elements;
                 const allAnswered = [...formElements].every(element => {
                     if (element.type === 'radio') {
-                        return element.checked;  // Ensures that all radio buttons are selected
+                        return element.checked;
                     }
                     if (element.type === 'checkbox') {
-                        return form.querySelectorAll('input[name="staff"]:checked').length >= 7;  // At least 7 staff must be selected
+                        return form.querySelectorAll('input[name="staff"]:checked').length === 7;
                     }
-                    return element.value.trim() !== '';  // For text fields, it ensures they're not empty
+                    return element.value.trim() !== '';
                 });
                 return allAnswered;
             }
 
-            // Enable or disable submit button based on form validity
             form.addEventListener('change', function() {
                 const isValid = isAllFormValid();
                 submitButton.disabled = !isValid;
-                errorMessage.style.display = isValid ? 'none' : 'block'; // Show error message if not all fields are answered
+                errorMessage.style.display = isValid ? 'none' : 'block';
             });
 
             form.addEventListener('submit', function(e) {
@@ -196,10 +159,10 @@
                 const answers = Object.fromEntries(formData);
                 console.log('Form submitted:', answers);
 
-                // Submit the answers (For example, send via webhook here)
+                // Send the answers (you can replace this with an actual webhook URL)
                 alert('Your answers have been submitted!');
 
-                // Disable form after submission
+                // Disable the form after submission
                 submitButton.disabled = true;
                 staffCheckboxes.forEach(checkbox => checkbox.disabled = true);
             });
