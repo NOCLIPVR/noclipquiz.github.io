@@ -14,12 +14,28 @@
     }
 
     .container {
-      max-width: 800px;
+      display: flex;
+      justify-content: space-between;
+      max-width: 1100px;
       margin: auto;
       background: #fff;
       padding: 30px;
       border-radius: 10px;
       box-shadow: 0 8px 30px rgba(0, 0, 0, 0.05);
+    }
+
+    .quiz-form {
+      flex: 1;
+      margin-right: 30px;
+    }
+
+    .people-picker {
+      flex: 1;
+      max-width: 300px;
+      background: #f7f7f7;
+      padding: 15px;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     }
 
     h1 {
@@ -43,8 +59,19 @@
       cursor: pointer;
     }
 
-    input[type="radio"] {
+    input[type="radio"],
+    input[type="text"],
+    input[type="checkbox"] {
       margin-right: 8px;
+    }
+
+    input[type="text"] {
+      width: 100%;
+      padding: 10px;
+      margin-bottom: 20px;
+      font-size: 16px;
+      border: 1px solid #ccc;
+      border-radius: 6px;
     }
 
     button {
@@ -63,98 +90,169 @@
       background-color: #004acc;
     }
 
-    @media (max-width: 600px) {
-      .container {
-        padding: 20px;
-      }
+    .people-picker h3 {
+      text-align: center;
+      margin-bottom: 15px;
+    }
 
-      h1 {
-        font-size: 24px;
+    .people-picker label {
+      display: inline-block;
+      width: 100%;
+      margin-bottom: 5px;
+      padding: 6px;
+      background: #fff;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+
+    .people-picker input[type="checkbox"]:checked + label {
+      background: #b2d8ff;
+    }
+
+    @media (max-width: 768px) {
+      .container {
+        flex-direction: column;
+        align-items: center;
       }
     }
   </style>
 </head>
 <body>
   <div class="container">
-    <h1>Noclip Staff Quiz</h1>
-    <form id="quizForm">
-      <!-- Questions -->
-      <div class="question"><p>1. What is Epic's catchphrase?</p>
-        <label><input type="radio" name="q1" value="meep">meep</label>
-        <label><input type="radio" name="q1" value="bazinka">bazinka</label>
-      </div>
+    <div class="quiz-form">
+      <h1>Noclip Staff Quiz</h1>
+      <form id="quizForm">
+        <input type="text" name="username" placeholder="Enter your name..." required />
 
-      <div class="question"><p>2. What emoji is § son?</p>
-        <label><input type="radio" name="q2" value="silly billy">silly billy</label>
-        <label><input type="radio" name="q2" value="joe bonkers">joe bonkers</label>
-        <label><input type="radio" name="q2" value="buckteeth">buckteeth</label>
-      </div>
+        <!-- Question 1 -->
+        <div class="question">
+          <p>1. What is Epic's catchphrase?</p>
+          <label><input type="radio" name="q1" value="meep">meep</label>
+          <label><input type="radio" name="q1" value="bazinka">bazinka</label>
+        </div>
 
-      <div class="question"><p>3. Is leader evil or good?</p>
-        <label><input type="radio" name="q3" value="evil">evil</label>
-        <label><input type="radio" name="q3" value="good">good</label>
-      </div>
+        <!-- Question 2 -->
+        <div class="question">
+          <p>2. What emoji is § son?</p>
+          <label><input type="radio" name="q2" value="silly billy">silly billy</label>
+          <label><input type="radio" name="q2" value="joe bonkers">joe bonkers</label>
+          <label><input type="radio" name="q2" value="buckteeth">buckteeth</label>
+        </div>
 
-      <div class="question"><p>4. Is it ad or gorg?</p>
-        <label><input type="radio" name="q4" value="ad">ad</label>
-        <label><input type="radio" name="q4" value="gorg">gorg</label>
-      </div>
+        <!-- Question 3 -->
+        <div class="question">
+          <p>3. Is leader evil or good?</p>
+          <label><input type="radio" name="q3" value="evil">evil</label>
+          <label><input type="radio" name="q3" value="good">good</label>
+        </div>
 
-      <div class="question"><p>5. What backrooms level is Entity 974?</p>
-        <label><input type="radio" name="q5" value="pool rooms">pool rooms</label>
-        <label><input type="radio" name="q5" value="kittys house">kittys house</label>
-        <label><input type="radio" name="q5" value="level fun">level fun</label>
-      </div>
+        <!-- Question 4 -->
+        <div class="question">
+          <p>4. Is it ad or gorg?</p>
+          <label><input type="radio" name="q4" value="ad">ad</label>
+          <label><input type="radio" name="q4" value="gorg">gorg</label>
+        </div>
 
-      <div class="question"><p>6. What does Kayoas like?</p>
-        <label><input type="radio" name="q6" value="meth">meth</label>
-        <label><input type="radio" name="q6" value="math">math</label>
-      </div>
+        <!-- Question 5 -->
+        <div class="question">
+          <p>5. What backrooms level is Entity 974?</p>
+          <label><input type="radio" name="q5" value="pool rooms">pool rooms</label>
+          <label><input type="radio" name="q5" value="kittys house">kittys house</label>
+          <label><input type="radio" name="q5" value="level fun">level fun</label>
+        </div>
 
-      <div class="question"><p>7. Who watches over everyone?</p>
-        <label><input type="radio" name="q7" value="xato">xato</label>
-        <label><input type="radio" name="q7" value="roxx">roxx</label>
-        <label><input type="radio" name="q7" value="nollear">nollear</label>
-      </div>
+        <!-- Question 6 -->
+        <div class="question">
+          <p>6. What does Kayoas like?</p>
+          <label><input type="radio" name="q6" value="meth">meth</label>
+          <label><input type="radio" name="q6" value="math">math</label>
+        </div>
 
-      <div class="question"><p>8. Who’s Choob’s monkey noodle?</p>
-        <label><input type="radio" name="q8" value="dog">dog</label>
-        <label><input type="radio" name="q8" value="cat">cat</label>
-        <label><input type="radio" name="q8" value="horse">horse</label>
-      </div>
+        <!-- Question 7 -->
+        <div class="question">
+          <p>7. Who watches over everyone?</p>
+          <label><input type="radio" name="q7" value="xato">xato</label>
+          <label><input type="radio" name="q7" value="roxx">roxx</label>
+          <label><input type="radio" name="q7" value="nollear">nollear</label>
+        </div>
 
-      <div class="question"><p>9. What cult is Nollear a part of?</p>
-        <label><input type="radio" name="q9" value="busy bee">busy bee</label>
-        <label><input type="radio" name="q9" value="cat">cat</label>
-        <label><input type="radio" name="q9" value="fein">fein</label>
-      </div>
+        <!-- Question 8 -->
+        <div class="question">
+          <p>8. Who’s Choob’s monkey noodle?</p>
+          <label><input type="radio" name="q8" value="dog">dog</label>
+          <label><input type="radio" name="q8" value="cat">cat</label>
+          <label><input type="radio" name="q8" value="horse">horse</label>
+        </div>
 
-      <div class="question"><p>10. What color is ***wolf9?</p>
-        <label><input type="radio" name="q10" value="blue">blue</label>
-        <label><input type="radio" name="q10" value="red">red</label>
-        <label><input type="radio" name="q10" value="green">green</label>
-      </div>
+        <!-- Question 9 -->
+        <div class="question">
+          <p>9. What cult is Nollear a part of?</p>
+          <label><input type="radio" name="q9" value="busy bee">busy bee</label>
+          <label><input type="radio" name="q9" value="cat">cat</label>
+          <label><input type="radio" name="q9" value="fein">fein</label>
+        </div>
 
-      <div class="question"><p>11. Who's Xato's favorite NHL team?</p>
-        <label><input type="radio" name="q11" value="rangers">rangers</label>
-        <label><input type="radio" name="q11" value="penguins">penguins</label>
-        <label><input type="radio" name="q11" value="jets">jets</label>
-      </div>
+        <!-- Question 10 -->
+        <div class="question">
+          <p>10. What color is ***wolf9?</p>
+          <label><input type="radio" name="q10" value="blue">blue</label>
+          <label><input type="radio" name="q10" value="red">red</label>
+          <label><input type="radio" name="q10" value="green">green</label>
+        </div>
 
-      <div class="question"><p>12. woo***</p>
-        <label><input type="radio" name="q12" value="poo">poo</label>
-        <label><input type="radio" name="q12" value="mat">mat</label>
-        <label><input type="radio" name="q12" value="bat">bat</label>
-      </div>
+        <!-- Question 11 -->
+        <div class="question">
+          <p>11. Who's Xato's favorite NHL team?</p>
+          <label><input type="radio" name="q11" value="rangers">rangers</label>
+          <label><input type="radio" name="q11" value="penguins">penguins</label>
+          <label><input type="radio" name="q11" value="jets">jets</label>
+        </div>
 
-      <div class="question"><p>13. Who's just the chillest of all guys?</p>
-        <label><input type="radio" name="q13" value="§">§</label>
-        <label><input type="radio" name="q13" value="kat">kat</label>
-        <label><input type="radio" name="q13" value="leader">leader</label>
-      </div>
+        <!-- Question 12 -->
+        <div class="question">
+          <p>12. woo***</p>
+          <label><input type="radio" name="q12" value="poo">poo</label>
+          <label><input type="radio" name="q12" value="mat">mat</label>
+          <label><input type="radio" name="q12" value="bat">bat</label>
+        </div>
 
-      <button type="submit">Submit Quiz</button>
-    </form>
+        <!-- Question 13 -->
+        <div class="question">
+          <p>13. Who's just the chillest of all guys?</p>
+          <label><input type="radio" name="q13" value="§">§</label>
+          <label><input type="radio" name="q13" value="kat">kat</label>
+          <label><input type="radio" name="q13" value="leader">leader</label>
+        </div>
+
+        <!-- Question 14 (New question for Hollow's real name) -->
+        <div class="question">
+          <p>14. What's Hollow's real name?</p>
+          <input type="text" name="q14" placeholder="Enter Hollow's real name" required />
+        </div>
+
+        <button type="submit">Submit Quiz</button>
+      </form>
+    </div>
+
+    <!-- People Picker Section -->
+    <div class="people-picker">
+      <h3>Select Up to 7 People</h3>
+      <label><input type="checkbox" name="people" value="entity974">entity974</label>
+      <label><input type="checkbox" name="people" value="reject">reject</label>
+      <label><input type="checkbox" name="people" value="Nollear">Nollear [Busy Bee Cult]</label>
+      <label><input type="checkbox" name="people" value="gorgilious">gorgilious</label>
+      <label><input type="checkbox" name="people" value="Woobat">Woobat</label>
+      <label><input type="checkbox" name="people" value="Choob">Choob</label>
+      <label><input type="checkbox" name="people" value="Kat">Kat</label>
+      <label><input type="checkbox" name="people" value="ItsKayoasVoltia">!★ ItsKayoasVoltia ★!</label>
+      <label><input type="checkbox" name="people" value="§">§</label>
+      <label><input type="checkbox" name="people" value="EpicEpicness">Epic epicness (MEEP)</label>
+      <label><input type="checkbox" name="people" value="Redwolf9">Redwolf9</label>
+      <label><input type="checkbox" name="people" value="TheWatcher">The Watcher</label>
+      <label><input type="checkbox" name="people" value="Hollow">Hollow!</label>
+      <label><input type="checkbox" name="people" value="leader">leader</label>
+    </div>
   </div>
 
   <script>
@@ -171,42 +269,55 @@
       q10: "red",
       q11: "penguins",
       q12: "bat",
-      q13: "kat"
+      q13: "kat",
+      q14: ["calum", "callum"]
     };
 
-    const webhookUrl = "https://discord.com/api/webhooks/1368602951374995477/-FxPP4iZtpRbuSGBOfy2aRRQu0ERtB6Kgk3MD5bz5UEFBqzi7jctA7ukIVgQd-d7SNeC"; // 👈 Replace this with your Discord webhook URL
+    const webhookUrl = "YOUR_DISCORD_WEBHOOK_URL"; // Replace with your webhook URL
 
-    document.getElementById("quizForm").addEventListener("submit", async function(event) {
-      event.preventDefault();
-
-      const form = new FormData(event.target);
-      let results = "";
+    document.getElementById("quizForm").addEventListener("submit", function (e) {
+      e.preventDefault();
       let score = 0;
+      const formData = new FormData(this);
+      const people = formData.getAll("people");
 
-      for (let i = 1; i <= 13; i++) {
-        const key = `q${i}`;
-        const userAnswer = form.get(key);
-        const correctAnswer = answers[key];
-        if (userAnswer === correctAnswer) {
-          results += `Q${i}: ✅ (${userAnswer})\n`;
-          score++;
+      // Check answers
+      for (let [question, correctAnswer] of Object.entries(answers)) {
+        const answer = formData.get(question);
+        if (Array.isArray(correctAnswer)) {
+          if (correctAnswer.includes(answer.toLowerCase())) {
+            score++;
+          }
         } else {
-          results += `Q${i}: ❌ (You said "${userAnswer}", correct: "${correctAnswer}")\n`;
+          if (answer && answer.toLowerCase() === correctAnswer) {
+            score++;
+          }
         }
       }
 
-      const payload = {
-        content: `📝 **New Quiz Submission**\n\n${results}\n**Score: ${score}/13**`
+      // Prepare data for Discord webhook
+      const data = {
+        content: `Quiz Completed! Total Score: ${score}`,
+        embeds: [{
+          title: "Quiz Result",
+          fields: [
+            { name: "Name", value: formData.get("username") },
+            { name: "Selected People", value: people.join(", ") }
+          ]
+        }]
       };
 
-      await fetch(webhookUrl, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(payload)
-      });
+      // Send data to Discord webhook
+      fetch(webhookUrl, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data)
+      })
+      .then(response => response.json())
+      .then(json => console.log(json))
+      .catch(err => console.error(err));
 
-      alert("Quiz submitted! Your answers have been sent.");
-      event.target.reset();
+      alert(`Your score is ${score}`);
     });
   </script>
 </body>
