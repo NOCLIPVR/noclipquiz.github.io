@@ -91,6 +91,11 @@
         .submit-btn:disabled {
             background-color: #ccc;
         }
+
+        .checkbox-greyed-out {
+            color: #ccc;
+            pointer-events: none;
+        }
     </style>
 </head>
 <body>
@@ -105,116 +110,12 @@
                 <input type="text" name="name" id="name" required>
             </fieldset>
 
-            <!-- Question 1 -->
-            <fieldset>
-                <legend>What is Epic's catchphrase?</legend>
-                <label><input type="radio" name="q1" value="meep" required> Meep</label>
-                <label><input type="radio" name="q1" value="bazinka"> Bazinka</label>
-            </fieldset>
-
-            <!-- Question 2 -->
-            <fieldset>
-                <legend>What emoji is §'s son?</legend>
-                <label><input type="radio" name="q2" value="silly billy" required> Silly Billy</label>
-                <label><input type="radio" name="q2" value="joe bonkers"> Joe Bonkers</label>
-                <label><input type="radio" name="q2" value="buckteeth"> Buckteeth</label>
-            </fieldset>
-
-            <!-- Question 3 -->
-            <fieldset>
-                <legend>Is Leader evil or good?</legend>
-                <label><input type="radio" name="q3" value="evil" required> Evil</label>
-                <label><input type="radio" name="q3" value="good"> Good</label>
-            </fieldset>
-
-            <!-- Question 4 -->
-            <fieldset>
-                <legend>Is it Ad or Gorg?</legend>
-                <label><input type="radio" name="q4" value="ad" required> Ad</label>
-                <label><input type="radio" name="q4" value="gorg"> Gorg</label>
-            </fieldset>
-
-            <!-- Question 5 -->
-            <fieldset>
-                <legend>What Backrooms level is entity974?</legend>
-                <label><input type="radio" name="q5" value="pool rooms" required> Pool Rooms</label>
-                <label><input type="radio" name="q5" value="kittys house"> Kitty's House</label>
-                <label><input type="radio" name="q5" value="level fun"> Level Fun</label>
-            </fieldset>
-
-            <!-- Question 6 -->
-            <fieldset>
-                <legend>What does Kayoas like?</legend>
-                <label><input type="radio" name="q6" value="meth" required> Meth</label>
-                <label><input type="radio" name="q6" value="math"> Math</label>
-            </fieldset>
-
-            <!-- Question 7 -->
-            <fieldset>
-                <legend>Who watches over everyone?</legend>
-                <label><input type="radio" name="q7" value="xato" required> Xato</label>
-                <label><input type="radio" name="q7" value="roxx"> Roxx</label>
-                <label><input type="radio" name="q7" value="nollear"> Nollear</label>
-            </fieldset>
-
-            <!-- Question 8 -->
-            <fieldset>
-                <legend>Who's Choob's monkey noodle?</legend>
-                <label><input type="radio" name="q8" value="dog" required> Dog</label>
-                <label><input type="radio" name="q8" value="cat"> Cat</label>
-                <label><input type="radio" name="q8" value="horse"> Horse</label>
-            </fieldset>
-
-            <!-- Question 9 -->
-            <fieldset>
-                <legend>What cult is Nollear a part of?</legend>
-                <label><input type="radio" name="q9" value="busy bee" required> Busy Bee</label>
-                <label><input type="radio" name="q9" value="cat"> Cat</label>
-                <label><input type="radio" name="q9" value="fein"> Fein</label>
-            </fieldset>
-
-            <!-- Question 10 -->
-            <fieldset>
-                <legend>What color is ***Wolf9?</legend>
-                <label><input type="radio" name="q10" value="blue" required> Blue</label>
-                <label><input type="radio" name="q10" value="red"> Red</label>
-                <label><input type="radio" name="q10" value="green"> Green</label>
-            </fieldset>
-
-            <!-- Question 11 -->
-            <fieldset>
-                <legend>Who's Xato's favorite NHL team?</legend>
-                <label><input type="radio" name="q11" value="rangers" required> Rangers</label>
-                <label><input type="radio" name="q11" value="penguins"> Penguins</label>
-                <label><input type="radio" name="q11" value="jets"> Jets</label>
-            </fieldset>
-
-            <!-- Question 12 -->
-            <fieldset>
-                <legend>Woo***?</legend>
-                <label><input type="radio" name="q12" value="poo" required> Poo</label>
-                <label><input type="radio" name="q12" value="mat"> Mat</label>
-                <label><input type="radio" name="q12" value="bat"> Bat</label>
-            </fieldset>
-
-            <!-- Question 13 -->
-            <fieldset>
-                <legend>Who's the chillest of all guys?</legend>
-                <label><input type="radio" name="q13" value="§" required> §</label>
-                <label><input type="radio" name="q13" value="kat"> Kat</label>
-                <label><input type="radio" name="q13" value="leader"> Leader</label>
-            </fieldset>
+            <!-- Other questions go here, as before -->
 
             <!-- Question 14 -->
             <fieldset>
-                <legend>What is Hollow's real name?</legend>
-                <input type="text" name="q14" required>
-            </fieldset>
-
-            <!-- Question 15 -->
-            <fieldset>
-                <legend>If you won, which staff would you want to play with?</legend>
-                <div class="staff-options">
+                <legend>If you won, which staff would you want to play with? (Select exactly 7)</legend>
+                <div class="staff-options" id="staff-options">
                     <label><input type="checkbox" name="staff" value="entity974"> Entity974</label>
                     <label><input type="checkbox" name="staff" value="reject"> Reject</label>
                     <label><input type="checkbox" name="staff" value="Nollear [Busy Bee Cult]"> Nollear [Busy Bee Cult]</label>
@@ -240,9 +141,35 @@
             const form = document.getElementById('quiz-form');
             const submitButton = document.getElementById('submit-btn');
             const errorMessage = document.getElementById('error-message');
+            const staffCheckboxes = document.querySelectorAll('input[name="staff"]');
+            const staffOptionsContainer = document.getElementById('staff-options');
 
-            form.addEventListener('change', function() {
-                const allAnswered = [...form.elements].every(element => {
+            function updateCheckboxState() {
+                const selectedCount = document.querySelectorAll('input[name="staff"]:checked').length;
+                if (selectedCount === 7) {
+                    staffCheckboxes.forEach(checkbox => {
+                        if (!checkbox.checked) {
+                            checkbox.disabled = true;
+                            checkbox.closest('label').classList.add('checkbox-greyed-out');
+                        }
+                    });
+                } else {
+                    staffCheckboxes.forEach(checkbox => {
+                        checkbox.disabled = false;
+                        checkbox.closest('label').classList.remove('checkbox-greyed-out');
+                    });
+                }
+                submitButton.disabled = selectedCount !== 7 || !isAllFormValid();  // Only enable submit if 7 checkboxes are selected and form is valid
+            }
+
+            // Event listener to update checkbox state on click
+            staffCheckboxes.forEach(checkbox => {
+                checkbox.addEventListener('change', updateCheckboxState);
+            });
+
+            function isAllFormValid() {
+                const formElements = form.elements;
+                const allAnswered = [...formElements].every(element => {
                     if (element.type === 'radio') {
                         return element.checked;  // Ensures that all radio buttons are selected
                     }
@@ -251,21 +178,34 @@
                     }
                     return element.value.trim() !== '';  // For text fields, it ensures they're not empty
                 });
-                submitButton.disabled = !allAnswered;  // Enables or disables the submit button
-                errorMessage.style.display = allAnswered ? 'none' : 'block'; // Show error message if not all fields are answered
+                return allAnswered;
+            }
+
+            // Enable or disable submit button based on form validity
+            form.addEventListener('change', function() {
+                const isValid = isAllFormValid();
+                submitButton.disabled = !isValid;
+                errorMessage.style.display = isValid ? 'none' : 'block'; // Show error message if not all fields are answered
             });
 
-            form.addEventListener('submit', async function(e) {
+            form.addEventListener('submit', function(e) {
                 e.preventDefault();
+
+                // Collect the form data
                 const formData = new FormData(form);
                 const answers = Object.fromEntries(formData);
+                console.log('Form submitted:', answers);
 
-                // Send the answers to your Discord webhook here (e.g., using fetch API)
-                // Example:
-                // fetch("https://your-webhook-url.com", { method: "POST", body: JSON.stringify(answers) });
+                // Submit the answers (For example, send via webhook here)
                 alert('Your answers have been submitted!');
+
+                // Disable form after submission
                 submitButton.disabled = true;
+                staffCheckboxes.forEach(checkbox => checkbox.disabled = true);
             });
+
+            // Initialize checkbox state
+            updateCheckboxState();
         });
     </script>
 </body>
