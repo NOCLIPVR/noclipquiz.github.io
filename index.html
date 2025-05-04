@@ -44,6 +44,7 @@
     }
 
     input[type="radio"],
+    input[type="checkbox"],
     input[type="text"] {
       margin-right: 8px;
     }
@@ -71,15 +72,6 @@
 
     button:hover {
       background-color: #004acc;
-    }
-
-    select {
-      width: 100%;
-      padding: 10px;
-      margin-bottom: 20px;
-      font-size: 16px;
-      border: 1px solid #ccc;
-      border-radius: 6px;
     }
 
     @media (max-width: 600px) {
@@ -177,23 +169,20 @@
         <input type="text" name="q14" placeholder="Enter Hollow's first name..." required />
       </div>
 
-      <div class="question">
-        <p>Who do you want to play with if you win?</p>
-        <select name="q15" required>
-          <option value="entity974">Entity974</option>
-          <option value="reject">Reject</option>
-          <option value="nollear">Nollear</option>
-          <option value="gorgilious">Gorgilious</option>
-          <option value="woobat">Woobat</option>
-          <option value="choob">Choob</option>
-          <option value="kat">Kat</option>
-          <option value="itskayoasvoltia">!★ ItsKayoasVoltia ★!</option>
-          <option value="epic">Epic epicness (MEEP)</option>
-          <option value="redwolf9">Redwolf9</option>
-          <option value="thewatcher">The Watcher</option>
-          <option value="hollow">Hollow!</option>
-          <option value="leader">Leader</option>
-        </select>
+      <div class="question"><p>Who do you want to play with if you win?</p>
+        <label><input type="checkbox" class="name-checkbox" value="entity974">Entity974</label><br>
+        <label><input type="checkbox" class="name-checkbox" value="reject">Reject</label><br>
+        <label><input type="checkbox" class="name-checkbox" value="nollear">Nollear [Busy Bee Cult]</label><br>
+        <label><input type="checkbox" class="name-checkbox" value="gorgilious">Gorgilious</label><br>
+        <label><input type="checkbox" class="name-checkbox" value="woobat">Woobat</label><br>
+        <label><input type="checkbox" class="name-checkbox" value="choob">Choob</label><br>
+        <label><input type="checkbox" class="name-checkbox" value="kat">Kat</label><br>
+        <label><input type="checkbox" class="name-checkbox" value="itskayoasvoltia">!★ ItsKayoasVoltia ★!</label><br>
+        <label><input type="checkbox" class="name-checkbox" value="epic">Epic epicness (MEEP)</label><br>
+        <label><input type="checkbox" class="name-checkbox" value="redwolf9">Redwolf9</label><br>
+        <label><input type="checkbox" class="name-checkbox" value="thewatcher">The Watcher</label><br>
+        <label><input type="checkbox" class="name-checkbox" value="hollow">Hollow!</label><br>
+        <label><input type="checkbox" class="name-checkbox" value="leader">Leader</label><br>
       </div>
 
       <button type="submit">Submit Quiz</button>
@@ -201,24 +190,25 @@
   </div>
 
   <script>
-    const answers = {
-      q1: "meep",
-      q2: "buckteeth",
-      q3: "evil",
-      q4: "gorg",
-      q5: "kittys house",
-      q6: "meth",
-      q7: "roxx",
-      q8: "cat",
-      q9: "busy bee",
-      q10: "red",
-      q11: "penguins",
-      q12: "bat",
-      q13: "kat",
-      q14: "callum", // Hollow's first name
-    };
+    const maxSelections = 7; // Set max selections limit
+    const checkboxes = document.querySelectorAll('.name-checkbox');
 
-    const webhookUrl = "YOUR_DISCORD_WEBHOOK_URL_HERE"; // 👈 Replace this with your actual webhook URL
+    checkboxes.forEach(checkbox => {
+      checkbox.addEventListener('change', () => {
+        const checkedCheckboxes = document.querySelectorAll('.name-checkbox:checked');
+        if (checkedCheckboxes.length >= maxSelections) {
+          checkboxes.forEach(box => {
+            if (!box.checked) {
+              box.disabled = true; // Disable unchecked boxes once max selections are made
+            }
+          });
+        } else {
+          checkboxes.forEach(box => {
+            box.disabled = false; // Enable all checkboxes if max selection is not reached
+          });
+        }
+      });
+    });
 
     document.getElementById("quizForm").addEventListener("submit", async function(event) {
       event.preventDefault();
@@ -237,8 +227,8 @@
 
       // Validate name selection - only allow up to 7 selections
       const selectedNames = [...form.getAll("q15")];
-      if (selectedNames.length > 7) {
-        alert("You can only select up to 7 names.");
+      if (selectedNames.length > maxSelections) {
+        alert(`You can only select up to ${maxSelections} names.`);
         return;
       }
 
